@@ -136,4 +136,5 @@ void loop() {
         Serial.println(currentPayload);
         last_payload = currentPayload;
     }
-    delay(10); // Small delay to avoid overwhelming the loop}
+    delay(10); // Small delay to avoid overwhelming the loop
+}
