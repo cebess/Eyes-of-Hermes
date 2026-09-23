@@ -143,7 +143,9 @@ void setup() {
             delay(1000);
         }
     }
-    const char *movement = EyeDisplay::getRandomImageFolder("/asleep");
+    strncpy(hermesPayload, "asleep", HERMES_PAYLOAD_CAPACITY - 1);
+    hermesPayload[HERMES_PAYLOAD_CAPACITY - 1] = '\0';
+    const char *movement = EyeDisplay::getRandomImageFolder(String("/asleep"));
     if (movement) {
         EyeDisplay::drawFrames(movement);
     }
@@ -167,6 +169,22 @@ void loop() {
         Serial.print("payload: ");
         Serial.println(currentPayload);
         last_payload = currentPayload;
+        String folderPath = "/" + String(currentPayload);
+        Serial.println("going to access: " + folderPath);
+        const char *movement = EyeDisplay::getRandomImageFolder(folderPath);
+        EyeDisplay::drawFrames(movement);
+    } else {
+        bool drawing = EyeDisplay::isDrawingFrames();
+        if (!drawing && currentPayload != nullptr && currentPayload[0] != '\0') {
+            String folderPath = "/" + String(currentPayload);
+            if (EyeDisplay::countOfSubFolders(folderPath) > 1) {
+                // we have something new we can display
+                //Serial.println("going to access again: '" + folderPath + "'");
+                const char *movement = EyeDisplay::getRandomImageFolder(folderPath);
+                EyeDisplay::drawFrames(movement);
+            
+            }
+        }
     }
-    delay(10); // Small delay to avoid overwhelming the loop
+    delay(100); // Small delay to avoid overwhelming the loop
 }

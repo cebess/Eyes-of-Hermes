@@ -4,6 +4,9 @@ Eyes of Hermes is an ESP32-C3 companion for Hermes. It connects to Wi-Fi,
 opens a WebSocket connection to a Hermes relay or server, and reports the
 agent's current state over the serial monitor.
 
+python "C:\Users\chasb\AppData\Local\hermes\bot_relay\hermes_relay.py"
+MUST BE RUNNING TO TALK WITH THIS PROGRAM   
+
 ## Current functionality
 
 At startup, the firmware:

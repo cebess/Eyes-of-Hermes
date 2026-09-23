@@ -218,11 +218,11 @@ bool begin(int sdaPin, int sclPin, uint8_t screenAddress) {
   return true;
 }
 
-const char *getRandomImageFolder(const char *folderPath) {
+const char *getRandomImageFolder(const String &folderPath) {
   static char selectedFolder[64];
   char subfolders[MAX_FOLDERS][64];
   char cleanPath[64];
-  const char *path = folderPath;
+  const char *path = folderPath.c_str();
 
   if (strncmp(path, "data/", 5) == 0 || strncmp(path, "data\\", 5) == 0) {
     path += 4;
@@ -255,6 +255,25 @@ const char *getRandomImageFolder(const char *folderPath) {
 
 bool isDrawingFrames() {
   return drawingInProgress;
+}
+
+int countOfSubFolders(const String &parentPath) {
+  int count = 0;
+  File parent = LittleFS.open(parentPath.c_str());
+  if (!parent || !parent.isDirectory()) {
+    Serial.println(F("Failed to open folder"));
+    return 0;
+  }
+
+  File entry = parent.openNextFile();
+  while (entry) {
+    if (entry.isDirectory()) {
+      count++;
+    }
+    entry = parent.openNextFile();
+  }
+
+  return count;
 }
 
 void drawFrames(const char *folderPath) {
