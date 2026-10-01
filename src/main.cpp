@@ -186,5 +186,5 @@ void loop() {
             }
         }
     }
-    delay(100); // Small delay to avoid overwhelming the loop
+    delay(200); // Small delay to avoid overwhelming the loop
 }
